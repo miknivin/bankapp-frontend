@@ -1,0 +1,69 @@
+<div class="container-fluid bg-primary">
+    <h1 class="text-center py-4 text-light py-4"><i class="fa-solid fa-piggy-bank"></i>Bank App</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="https://storage.googleapis.com/msgsndr/RKjSVFlud4tomMYa0uQc/media/64c74661f873e386518ef5c5.gif" width="100%" alt="">
+        </div>
+        <div style="height: fit-content;" class="col-md-6 d-flex flex-column justify-content-center p-4 bg-primary my-5 border border-1 rounded-4">
+          <form (ngSubmit)="login()" [formGroup]="loginForm" action="">
+            <h1 class="my-4 text-white">Login</h1>
+            <div class="form-floating mb-3">
+              <input formControlName="acno" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+              <label for="floatingInput">Account no</label>
+              <div *ngIf="this.loginForm.get('acno')?.errors&&this.loginForm.get('acno')?.touched" class="text-danger bg-light">*Invalid acno</div>
+
+            </div>
+            <div class="form-floating">
+              <input formControlName="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+              <label for="floatingPassword">Password</label>
+              <div *ngIf="this.loginForm.get('password')?.errors&&this.loginForm.get('password')?.touched" class="text-danger bg-light">*Invalid Password</div>
+            </div>
+            <!-- <div class="form-check form-switch my-3">
+              <input class="form-check-input bg-dark" type="checkbox" id="flexSwitchCheckDefault">
+              <label class="form-check-label text-light" for="flexSwitchCheckDefault">Remember me</label>
+            </div> -->
+
+            <h3 class="text-danger">{{loginError}}</h3>
+
+            <div class="w-25">
+              <button type="submit" class="btn btn-light text-primary px-4 my-4 mb-3">Login
+                <div *ngIf="loginSuccess" class="spinner-grow text-primary" role="status"><span></span></div>
+              </button>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+
+<section id="footer">
+    <section class="">
+        <!-- Footer -->
+        <footer class="text-center text-white py-4" style="background-color: #0a4275;">
+          <!-- Grid container -->
+          <div class="container p-4 pb-0">
+            <!-- Section: CTA -->
+            <section class="">
+              <p class="d-flex justify-content-center align-items-center">
+                <span class="me-3">New User? Register for free</span>
+                <button routerLink="register" type="button" class="btn btn-outline-light btn-rounded">
+                  Sign up!
+                </button>
+              </p>
+            </section>
+            <!-- Section: CTA -->
+          </div>
+          <!-- Grid container -->
+
+          <!-- Copyright -->
+          <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2020 Copyright:
+            <a class="text-white" href="https://mdbootstrap.com/">My Bank App</a>
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+      </section>
+</section>

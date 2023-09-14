@@ -1,0 +1,88 @@
+<div class="container-fluid bg-primary">
+    <h1 class="text-center py-4 text-light py-4"><i class="fa-solid fa-piggy-bank"></i>Bank App</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <img style="border: 1px soild transparent; border-radius: 5%;" width="80%" class="m-4 mx-5" src="https://storage.googleapis.com/msgsndr/RKjSVFlud4tomMYa0uQc/media/64c88f026cd251071e5b57c6.jpeg" alt="">
+    </div>
+
+      <div style="height: fit-content;" class="col-md-6 d-flex flex-column justify-content-center p-4 bg-primary my-5 border border-1 rounded-4">
+        <form (ngSubmit)="register()" [formGroup]=registerForm >
+        <h1 class="my-4 text-white">Register</h1>
+
+          <div class="form-floating mb-3">
+            <input type="email" formControlName="username" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">Name</label>
+            <div *ngIf="this.registerForm.get('username')?.errors&&this.registerForm.get('username')?.touched" class="text-danger bg-light">*Invalid username</div>
+          </div>
+
+          <!-- <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+              <label for="floatingInput">Email address</label>
+          </div> -->
+
+          <div class="form-floating mb-3">
+            <input type="email" formControlName="acno" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">Acno</label>
+          <div *ngIf="this.registerForm.get('acno')?.errors&&this.registerForm.get('acno')?.touched" class="text-danger bg-light">*Invalid Account no</div>
+          </div>
+
+          <!-- <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+              <label for="floatingInput">Phone No</label>
+          </div> -->
+
+          <div class="form-floating">
+            <input type="password" formControlName="password" class="form-control w-100 py-4" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+            <div *ngIf="this.registerForm.get('password')?.errors&&this.registerForm.get('password')?.touched" class="text-danger bg-light">*Invalid Password</div>
+          </div>
+<!--
+            <div class="form-floating">
+              <input type="password" class="form-control w-100 py-4 " id="floatingPassword" placeholder="Password">
+              <label for="floatingPassword">Confirm Password</label>
+            </div> -->
+
+          <div class="w-25">
+            <button type="submit" class="btn btn-light text-primary px-4 my-4 mb-3">Register</button>
+          </div>
+
+          <div class="error-message">
+            <h3>{{RegisterError}}</h3>
+          </div>
+
+        </form>
+        </div>
+
+</div>
+
+<section id="footer">
+    <section class="">
+        <!-- Footer -->
+        <footer class="text-center text-white py-4" style="background-color: #0a4275;">
+          <!-- Grid container -->
+          <div class="container p-4 pb-0">
+            <!-- Section: CTA -->
+            <section class="d-flex justify-content-center align-items-center text-center">
+              <p class="">
+                <span class="me-3 text-center">Already a member</span>
+                <button routerLink="/" type="button" class="btn btn-outline-light btn-rounded">
+                  Sign in!
+                </button>
+              </p>
+            </section>
+            <!-- Section: CTA -->
+          </div>
+          <!-- Grid container -->
+
+          <!-- Copyright -->
+          <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2020 Copyright:
+            <a class="text-white" href="https://mdbootstrap.com/">My Bank App</a>
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+      </section>
+</section>

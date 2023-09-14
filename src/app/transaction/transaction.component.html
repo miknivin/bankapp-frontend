@@ -1,0 +1,81 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container py-2">
+    <a class="navbar-brand" href="#">
+      <h1 class="text-center text-dark fs-3"><i class="fa-solid fa-piggy-bank pe-2"></i>Bank App</h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto me-5 mb-2 mb-lg-0">
+        <!-- <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li> -->
+        <li class="nav-item dropdown ms-auto">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Services
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a  class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample" (click)="getBalance()"><i class="fa-solid fa-money-bill me-2"></i>Balance Enquiry</a></li>
+            <li><a class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="#"><i class="fa-solid fa-money-bill-transfer me-2"></i>Fund Transfer</a></li>
+            <li><a routerLink="/transactions" class="dropdown-item" href="#"><i class="fa-solid fa-clock-rotate-left me-2"></i>Transaction History</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-circle-minus me-2"></i>Remove Account</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Logout<i class="fa-solid fa-arrow-right-from-bracket ms-2 text-danger"></i></a></li>
+          </ul>
+        </li>
+        <!-- logout button -->
+        <li>
+          <button (click)="logout()" type="button" class="btn btn-danger mx-5">Logout</button>
+        </li>
+
+        <!-- <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li> -->
+      </ul>
+      <!-- <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> -->
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+<div class="d-flex justify-content-end container my-4" id="form">
+  <form class="d-flex w-25 justify-content-end">
+    <!-- Input field for search -->
+    <input type="text" [(ngModel)]="searchText" name="searchText" placeholder="Search by Acno or Type" class="form-control mb-3" />
+  </form>
+  <button type="button" (click)="generatePdf()" class="btn btn-primary">Export as PDF</button>
+</div>
+
+<!-- Table -->
+<div class="container">
+  <table class="table table-bordered border-primary table-hover">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Type</th>
+        <th scope="col">From Account</th>
+        <th scope="col">To Account</th>
+        <th scope="col">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let trans of transactions | search: searchText; let i=index">
+        <th scope="row">{{i+1}}</th>
+        <td>{{trans.type}}</td>
+        <td>{{trans.fromAcno}}</td>
+        <td>{{trans.toAcno}}</td>
+        <td>{{trans.amount}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

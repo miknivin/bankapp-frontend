@@ -1,0 +1,210 @@
+
+  <app-delete-acno [deleteAcno]="acno" (onCancel)="cancelDeleteConfirm()" (onDelete)="deleteFromParent()"></app-delete-acno>
+
+<div class="text-center" *ngIf="deleteSuccessMsg">
+  <h3>{{deleteSuccessMsg}}</h3>
+</div>
+
+<div *ngIf="!deleteConfirmStatus" id="dashboard">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container py-2">
+    <a class="navbar-brand" href="#">
+      <h1 class="text-center text-dark fs-3"><i class="fa-solid fa-piggy-bank pe-2"></i>Bank App</h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto me-5 mb-2 mb-lg-0">
+        <!-- <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li> -->
+        <li class="nav-item dropdown ms-auto">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Services
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a  class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample" (click)="getBalance()"><i class="fa-solid fa-money-bill me-2"></i>Balance Enquiry</a></li>
+            <li><a class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="#"><i class="fa-solid fa-money-bill-transfer me-2"></i>Fund Transfer</a></li>
+            <li><a routerLink="/transactions" class="dropdown-item" href="#"><i class="fa-solid fa-clock-rotate-left me-2"></i>Transaction History</a></li>
+            <li><a (click)="deleteAccount()" class="dropdown-item"><i class="fa-solid fa-circle-minus me-2"></i>Remove Account</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <!-- <li><a  (click)="logout()" class="dropdown-item" href="#">Logout<i class="fa-solid fa-arrow-right-from-bracket ms-2 text-danger"></i></a></li> -->
+          </ul>
+        </li>
+        <!-- logout button -->
+        <li>
+          <button (click)="logout()" type="button" class="btn btn-danger mx-5">Logout</button>
+        </li>
+
+        <div class="preloader" *ngIf="loading">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="text-center mt-3">Please wait while we are loading</p>
+        </div>
+
+        <!-- <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li> -->
+      </ul>
+      <!-- <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> -->
+    </div>
+  </div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Fund Transfer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" (ngSubmit)="formAlert()" [formGroup]="fundTransfer">
+          <div class="form-floating mb-3">
+            <input formControlName="creditAcno" type="text" class="form-control" id="floatingInput" placeholder="Credit Account No">
+            <label for="floatingInput">Credit Account No</label>
+            <div *ngIf="this.fundTransfer.get('acno')?.errors&&this.fundTransfer.get('acno')?.touched" class="text-danger bg-light">*Invalid acno</div>
+
+          </div>
+          <div class="form-floating mb-3">
+            <input formControlName="amount" type="text" class="form-control" id="floatingInput" placeholder="Amount">
+            <label for="floatingInput">Amount</label>
+            <div *ngIf="this.fundTransfer.get('amount')?.errors&&this.fundTransfer.get('amount')?.touched" class="text-danger bg-light">*Invalid input</div>
+
+          </div>
+          <div class="form-floating">
+            <input  formControlName="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+            <div *ngIf="this.fundTransfer.get('password')?.errors&&this.fundTransfer.get('password')?.touched" class="text-danger bg-light">*Invalid Password</div>
+            <!-- result -->
+            <div *ngIf="success" class="text-success fw-bolder my-2">
+              {{transferSuccess}}
+            </div>
+            <div *ngIf="!success" class="text-danger fw-bolder my-2">
+              {{transferError}}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+            <button type="submit" (click)="dashboardForm()" class="btn btn-success">Send</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button (click)="reset()" type="reset" class="btn btn-primary">Reset</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- off canvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Balance Enquiry</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <img class="mx-auto" width="90%" src="https://storage.googleapis.com/msgsndr/RKjSVFlud4tomMYa0uQc/media/64d70587fc87af5ef1e55abe.gif" alt="">
+    <div>
+      <h1>Hey, {{displayUsername}}</h1>
+      <h3>Your Balance is : <span class="text-success ">{{balance}}</span></h3>
+    </div>
+    <!-- <div class="dropdown mt-3">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+        Dropdown button
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div> -->
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="container py-5">
+  <div class="row my-5">
+    <div class="col-6">
+      <img width="100%" src="https://storage.googleapis.com/msgsndr/RKjSVFlud4tomMYa0uQc/media/64d319c5569bdbf4b789d005.jpeg" alt="">
+    </div>
+    <div class="col-6 py-5">
+      <!-- headings and text -->
+      <h1 class="mt-4 mb-3">Welcome {{displayUsername}}</h1>
+      <p>Online banking, also known as internet banking, virtual banking, web banking or home banking, is a system that enables customers
+         of a bank or other financial institution to conduct a range of financial transactions through the financial institution's website or mobile app.
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div class="">
+          Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+        </div>
+      </div>
+      <button (click)="collapse()" type="button" class="btn btn-info my-3" data-bs-toggle="collapse" data-bs-target="#collapseExample">Read
+        <span *ngIf="!isCollapse">more</span>
+        <span *ngIf="isCollapse">Less</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+
+<!-- Footer -->
+<footer class="bg-dark text-center text-white">
+  <!-- Grid container -->
+  <div class="container p-4">
+    <!-- Section: Social media -->
+    <section class="mb-4">
+      <!-- Facebook -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-facebook-f"></i
+      ></a>
+
+      <!-- Twitter -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-twitter"></i
+      ></a>
+
+      <!-- Google -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-google"></i
+      ></a>
+
+      <!-- Instagram -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-instagram"></i
+      ></a>
+
+      <!-- Linkedin -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-linkedin-in"></i
+      ></a>
+
+      <!-- Github -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-github"></i
+      ></a>
+    </section>
+    <!-- Section: Social media -->
+
+  </div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2020 Copyright:
+    <a class="text-white" href="https://mdbootstrap.com/">Bank App</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
+</div>
